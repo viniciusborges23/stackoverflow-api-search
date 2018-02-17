@@ -22,7 +22,7 @@ const typeDefs = `
   }
 
   type Query {
-    questions(tag: String, score: Int, limit: Int, sort: String): [Question]
+    questions(tags: String, score: Int, limit: Int, sort: String): [Question]
   }
 `;
 
