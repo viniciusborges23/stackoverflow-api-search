@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
 
-class QuestionsList extends Component {
-  // constructor(props) {
-  //   super(props);
-  // }
+import Loading from './Loading';
 
+class QuestionsList extends Component {
   renderTags(tags) {
     return tags.map(tag => (
       <span key={tag} className="badge badge-info">
@@ -12,24 +10,43 @@ class QuestionsList extends Component {
       </span>
     ));
   }
+
   renderList() {
+    if (this.props.loading) {
+      return <Loading />;
+    }
     return this.props.questions.map(question => {
       return (
         <div key={question.question_id} className="list-group-item flex-column align-items-start">
           <div className="row">
             <div className="col col-md-2">
-              <p>{question.score} votes</p>
-              <p>{question.answer_count} answer</p>
-              <small>{question.view_count} views</small>
+              <p className="text-center">
+                {question.score}
+                <br />votes
+              </p>
+              <p className="text-center">
+                {question.answer_count}
+                <br />answer
+              </p>
+              <p className="text-center">
+                <small>{question.view_count} views</small>
+              </p>
             </div>
             <div className="col col-md-8">
               <h5>{question.title}</h5>
-              {this.renderTags(question.tags)}
+              <p>{this.renderTags(question.tags)}</p>
+              <small>
+                <a href={question.link} target="_blank">
+                  View more
+                </a>
+              </small>
             </div>
             <div className="col col-md-2">
               <small>{question.creation_date}</small>
               <img src={question.owner.profile_image} alt={question.owner.display_name} className="img-thumbnail" />
-              <p>{question.owner.display_name}</p>
+              <p className="text-center">
+                <small>{question.owner.display_name}</small>
+              </p>
             </div>
           </div>
         </div>

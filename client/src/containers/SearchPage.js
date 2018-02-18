@@ -11,8 +11,9 @@ class SearchPage extends Component {
 
     this.state = {
       questions: [],
+      loading: false,
       filters: {
-        tags: 'javascript',
+        tags: [{ value: 'javascript', label: 'javascript', clearableValue: false }],
         score: 0,
         limit: 15,
         sort: 'activity'
@@ -27,6 +28,13 @@ class SearchPage extends Component {
   }
 
   handleTagsChange(tags) {
+    if (tags.length > 5) return;
+    tags = tags.map(({ value, label }) => {
+      return {
+        value: value.replace(/ /g, '-'),
+        label: label.replace(/ /g, '-')
+      };
+    });
     this.setState({ filters: { ...this.state.filters, tags } });
   }
 
@@ -44,14 +52,17 @@ class SearchPage extends Component {
 
   async onSubmit(event) {
     event.preventDefault();
-    // console.log(this.props);
-    // console.log(this.state);
-    const { tags, limit, score, sort } = this.state.filters;
+
+    const tags = this.state.filters.tags.map(tag => tag.value).join(';');
+
+    this.setState({ loading: true });
+
     const result = await this.props.client.query({
       query: FeedQuestions,
-      variables: { tags, limit, score, sort }
+      variables: { ...this.state.filters, tags }
     });
-    this.setState({ questions: result.data.questions });
+
+    this.setState({ questions: result.data.questions, loading: false });
   }
 
   render() {
@@ -65,7 +76,7 @@ class SearchPage extends Component {
           onScoreChange={this.handleScoreChange}
           onSortChange={this.handleSortChange}
         />
-        <QuestionsList questions={this.state.questions} />
+        <QuestionsList loading={this.state.loading} questions={this.state.questions} />
       </div>
     );
   }

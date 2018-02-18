@@ -1,54 +1,76 @@
 import React, { Component } from 'react';
+import { Creatable } from 'react-select';
+import 'react-select/dist/react-select.css';
 
 class Search extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      tagOptions: [
+        { value: 'php', label: 'php' },
+        { value: 'reactjs', label: 'reactjs' },
+        { value: 'java', label: 'java' },
+        { value: 'c++', label: 'c++' },
+        { value: 'c#', label: 'c#' },
+        { value: 'python', label: 'python' },
+        { value: 'jquery', label: 'jquery' },
+        { value: 'html', label: 'html' },
+        { value: 'ios', label: 'ios' },
+        { value: 'android', label: 'android' }
+      ]
+    };
+  }
+
+  handleSortChange(e) {
+    const value = e.target.value;
+    const scoreElement = document.getElementById('score');
+    if (value === 'votes') {
+      scoreElement.removeAttribute('disabled');
+    } else {
+      scoreElement.setAttribute('disabled', true);
+      this.props.filters.score = 0;
+    }
+    this.props.onSortChange(e.target.value);
+  }
+
   render() {
     return (
       <div>
         <form onSubmit={this.props.onSubmit}>
           <div className="form-group">
-            <label htmlFor="tags">Tag</label>
-            <input
-              type="text"
-              className="form-control"
-              id="tags"
-              placeholder="javascript"
-              onChange={e => this.props.onTagsChange(e.target.value)}
+            <label htmlFor="tags">
+              Tags for Search <small> - Maximun of 5 tags.</small>
+            </label>
+            <Creatable
+              multi={true}
+              clearable={false}
+              options={this.state.tagOptions}
+              onChange={value => this.props.onTagsChange(value)}
               value={this.props.filters.tags}
             />
           </div>
           <div className="form-row">
             <div className="form-group col-md-4">
-              <label htmlFor="score">Score</label>
-              <input
-                type="number"
-                className="form-control"
-                id="score"
-                placeholder="10"
-                onChange={e => this.props.onScoreChange(e.target.value)}
-                value={this.props.filters.score}
-              />
-            </div>
-            <div className="form-group col-md-4">
-              <label htmlFor="limit">Limit</label>
+              <label htmlFor="limit">Results per page</label>
               <select
                 className="form-control"
                 id="limit"
                 onChange={e => this.props.onLimitChange(e.target.value)}
                 value={this.props.filters.limit}
               >
-                <option value="5">5</option>
                 <option value="15">15</option>
-                <option value="25">25</option>
+                <option value="30">30</option>
                 <option value="50">50</option>
                 <option value="100">100</option>
               </select>
             </div>
             <div className="form-group col-md-4">
-              <label htmlFor="sort">Sort</label>
+              <label htmlFor="sort">Sort by</label>
               <select
                 className="form-control"
                 id="sort"
-                onChange={e => this.props.onSortChange(e.target.value)}
+                onChange={this.handleSortChange.bind(this)}
                 value={this.props.filters.sort}
               >
                 <option value="activity">Last Updated</option>
@@ -56,10 +78,23 @@ class Search extends Component {
                 <option value="votes">Highest Voted</option>
               </select>
             </div>
+            <div className="form-group col-md-4">
+              <label htmlFor="score">Minimum of Votes</label>
+              <input
+                disabled
+                type="number"
+                className="form-control"
+                id="score"
+                onChange={e => this.props.onScoreChange(e.target.value)}
+                value={this.props.filters.score}
+              />
+            </div>
           </div>
-          <button type="submit" className="btn btn-primary mb-2">
-            Search
-          </button>
+          <div className="d-flex justify-content-end">
+            <button type="submit" className="btn btn-primary mb-2">
+              Search
+            </button>
+          </div>
         </form>
       </div>
     );
