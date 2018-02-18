@@ -16,7 +16,7 @@ This project use [StackExchange](https://api.stackexchange.com/docs/questions) t
 
 ## How to Start
 
-Clone this reporsitory and them initialize the two parts.
+Clone this reporsitory and then initialize the two parts.
 
 Server:
 
