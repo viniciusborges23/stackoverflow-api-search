@@ -45,6 +45,7 @@ class Search extends Component {
                 Tags for Search <small> - Maximun of 5 tags.</small>
               </label>
               <Creatable
+                id="tags"
                 multi={true}
                 clearable={false}
                 options={this.state.tagOptions}
