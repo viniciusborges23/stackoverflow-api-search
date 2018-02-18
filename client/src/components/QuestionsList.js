@@ -15,6 +15,15 @@ class QuestionsList extends Component {
     if (this.props.loading) {
       return <Loading />;
     }
+
+    if (this.props.didSearch && !this.props.questions.length) {
+      return (
+        <div>
+          <p>You're the first one to have this idea!</p>
+          <p>Sorry, we couldn't find any results matching the selected tags and filters.</p>
+        </div>
+      );
+    }
     return this.props.questions.map(question => {
       return (
         <div key={question.question_id} className="list-group-item flex-column align-items-start">

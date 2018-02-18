@@ -37,6 +37,7 @@ class Search extends Component {
   render() {
     return (
       <div>
+        <h3>Search on StackExchenge API</h3>
         <form onSubmit={this.props.onSubmit}>
           <div className="form-group">
             <label htmlFor="tags">

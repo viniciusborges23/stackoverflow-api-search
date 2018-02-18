@@ -5,7 +5,6 @@ const Header = () => {
     <header>
       <div className="container text-center">
         <h1>StackOverflow</h1>
-        <h3>Search on StackExchenge API</h3>
       </div>
     </header>
   );

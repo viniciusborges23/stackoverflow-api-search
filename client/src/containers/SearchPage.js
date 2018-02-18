@@ -12,6 +12,7 @@ class SearchPage extends Component {
     this.state = {
       questions: [],
       loading: false,
+      didSearch: false,
       filters: {
         tags: [{ value: 'javascript', label: 'javascript', clearableValue: false }],
         score: 0,
@@ -29,10 +30,11 @@ class SearchPage extends Component {
 
   handleTagsChange(tags) {
     if (tags.length > 5) return;
-    tags = tags.map(({ value, label }) => {
+    tags = tags.map(tag => {
       return {
-        value: value.replace(/ /g, '-'),
-        label: label.replace(/ /g, '-')
+        ...tag,
+        value: tag.value.replace(/ /g, '-'),
+        label: tag.label.replace(/ /g, '-')
       };
     });
     this.setState({ filters: { ...this.state.filters, tags } });
@@ -59,10 +61,14 @@ class SearchPage extends Component {
 
     const result = await this.props.client.query({
       query: FeedQuestions,
-      variables: { ...this.state.filters, tags }
+      variables: { ...this.state.filters, tags: encodeURIComponent(tags) }
     });
 
-    this.setState({ questions: result.data.questions, loading: false });
+    this.setState({
+      loading: false,
+      didSearch: true,
+      questions: result.data.questions
+    });
   }
 
   render() {
@@ -76,7 +82,7 @@ class SearchPage extends Component {
           onScoreChange={this.handleScoreChange}
           onSortChange={this.handleSortChange}
         />
-        <QuestionsList loading={this.state.loading} questions={this.state.questions} />
+        <QuestionsList didSearch={this.state.didSearch} loading={this.state.loading} questions={this.state.questions} />
       </div>
     );
   }
