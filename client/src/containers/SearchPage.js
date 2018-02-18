@@ -73,7 +73,7 @@ class SearchPage extends Component {
 
   render() {
     return (
-      <div className="container">
+      <div>
         <Search
           onSubmit={this.onSubmit}
           filters={this.state.filters}
@@ -103,7 +103,6 @@ const FeedQuestions = gql`
         profile_image
         display_name
         link
-        reputation
       }
     }
   }
