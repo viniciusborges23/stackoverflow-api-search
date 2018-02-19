@@ -1,3 +1,30 @@
 header {
   background-color: #0e0066;
-  color: #ffffff; }
+  color: #ffffff;
+  padding: 2%;
+}
+
+footer {
+  background-color: #eeeeee;
+  padding: 2%;
+}
+
+img {
+  width: 60%;
+}
+
+.list-group,
+.no-results,
+.loading {
+  margin: 3% 0;
+}
+
+.search {
+  padding: 2%;
+  background-color: #eeeeee;
+}
+
+.badge {
+  padding: 2.5%;
+  margin: 2% 2% 0 0;
+}

@@ -14,18 +14,6 @@ class QuestionsList extends Component {
   }
 
   renderList() {
-    if (this.props.loading) {
-      return <Loading />;
-    }
-
-    if (this.props.didSearch && !this.props.questions.length) {
-      return (
-        <div className="container">
-          <h4>You're the first one to have this idea!</h4>
-          <p>Sorry, we couldn't find any results matching the selected tags and filters.</p>
-        </div>
-      );
-    }
     return this.props.questions.map(question => {
       return (
         <div key={question.question_id} className="container list-group-item flex-column align-items-start">
@@ -79,7 +67,28 @@ class QuestionsList extends Component {
   }
 
   render() {
-    if (!this.props.questions) return;
+    if (this.props.loading) {
+      return <Loading />;
+    }
+
+    if (this.props.didSearch && this.props.error) {
+      return (
+        <div className="no-results text-center">
+          <h4>Oops! Something went wrong.</h4>
+          <p>Couldn't establish a connection to the server.</p>
+        </div>
+      );
+    }
+
+    if (this.props.didSearch && !this.props.questions.length) {
+      return (
+        <div className="no-results text-center">
+          <h4>You're the first one to have this idea!</h4>
+          <p>Sorry, we couldn't find any results matching the selected tags and filters.</p>
+        </div>
+      );
+    }
+
     return <div className="list-group">{this.renderList()}</div>;
   }
 }

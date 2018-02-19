@@ -13,6 +13,7 @@ class SearchPage extends Component {
       questions: [],
       loading: false,
       didSearch: false,
+      error: false,
       filters: {
         tags: [{ value: 'javascript', label: 'javascript', clearableValue: false }],
         score: 0,
@@ -58,17 +59,24 @@ class SearchPage extends Component {
     const tags = this.state.filters.tags.map(tag => tag.value).join(';');
 
     this.setState({ loading: true });
+    try {
+      const result = await this.props.client.query({
+        query: FeedQuestions,
+        variables: { ...this.state.filters, tags: encodeURIComponent(tags) }
+      });
 
-    const result = await this.props.client.query({
-      query: FeedQuestions,
-      variables: { ...this.state.filters, tags: encodeURIComponent(tags) }
-    });
-
-    this.setState({
-      loading: false,
-      didSearch: true,
-      questions: result.data.questions
-    });
+      this.setState({
+        loading: false,
+        didSearch: true,
+        questions: result.data.questions
+      });
+    } catch (e) {
+      this.setState({
+        loading: false,
+        didSearch: true,
+        error: true
+      });
+    }
   }
 
   render() {
@@ -82,7 +90,12 @@ class SearchPage extends Component {
           onScoreChange={this.handleScoreChange}
           onSortChange={this.handleSortChange}
         />
-        <QuestionsList didSearch={this.state.didSearch} loading={this.state.loading} questions={this.state.questions} />
+        <QuestionsList
+          error={this.state.error}
+          didSearch={this.state.didSearch}
+          loading={this.state.loading}
+          questions={this.state.questions}
+        />
       </div>
     );
   }
