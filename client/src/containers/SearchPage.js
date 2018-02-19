@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { withApollo } from 'react-apollo';
-import gql from 'graphql-tag';
 
-import QuestionsList from '../components/QuestionsList';
 import Search from '../components/Search';
+import QuestionsList from '../components/QuestionsList';
+import fetchQuestions from '../queries/fetchQuestions';
 
 class SearchPage extends Component {
   constructor(props) {
@@ -61,7 +61,7 @@ class SearchPage extends Component {
     this.setState({ loading: true });
     try {
       const result = await this.props.client.query({
-        query: FeedQuestions,
+        query: fetchQuestions,
         variables: { ...this.state.filters, tags: encodeURIComponent(tags) }
       });
 
@@ -100,25 +100,5 @@ class SearchPage extends Component {
     );
   }
 }
-
-const FeedQuestions = gql`
-  query FeedQuestions($tags: String, $limit: Int, $score: Int, $sort: String) {
-    questions(tags: $tags, limit: $limit, score: $score, sort: $sort) {
-      tags
-      title
-      question_id
-      score
-      view_count
-      answer_count
-      creation_date
-      link
-      owner {
-        profile_image
-        display_name
-        link
-      }
-    }
-  }
-`;
 
 export default withApollo(SearchPage);
