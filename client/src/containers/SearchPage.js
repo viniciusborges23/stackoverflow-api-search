@@ -46,6 +46,7 @@ class SearchPage extends Component {
   }
 
   handleScoreChange(score) {
+    score = score || 0;
     this.setState({ filters: { ...this.state.filters, score } });
   }
 
