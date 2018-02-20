@@ -3,21 +3,21 @@ import Enzyme, { shallow } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 
 import QuestionsList from '../components/QuestionsList';
+import QuestionsListItem from '../components/QuestionsListItem';
 import Loading from '../components/Loading';
+import NoResults from '../components/NoResults';
 
 Enzyme.configure({ adapter: new Adapter() });
 
 describe('<QuestionsList />', () => {
-  test('should show loading', () => {
+  test('should show <Loading />', () => {
     const wrapper = shallow(<QuestionsList didSearch={true} loading={true} questions={[]} />);
     expect(wrapper.find('Loading').length).toBe(1);
   });
 
-  test('should show no results', () => {
+  test('should show no <NoResults />', () => {
     const wrapper = shallow(<QuestionsList didSearch={true} loading={false} questions={[]} />);
-    expect(wrapper.text()).toBe(
-      "You're the first one to have this idea!Sorry, we couldn't find any results matching the selected tags and filters."
-    );
+    expect(wrapper.find('NoResults').length).toBe(1);
   });
 
   test('question item', () => {
@@ -40,6 +40,6 @@ describe('<QuestionsList />', () => {
       }
     ];
     const wrapper = shallow(<QuestionsList didSearch={true} loading={false} questions={questions} />);
-    expect(wrapper.find('.list-group-item').length).toBe(1);
+    expect(wrapper.find('QuestionsListItem').length).toBe(1);
   });
 });
