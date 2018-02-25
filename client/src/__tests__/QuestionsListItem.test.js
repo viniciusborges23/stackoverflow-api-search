@@ -20,8 +20,8 @@ describe('<QuestionsListItem />', () => {
     owner: {
       profile_image: 'https://www.gravatar.com/avatar/a882f6a0a82864cbd7690e12aa766f83?s=128&d=identicon&r=PG&f=1',
       display_name: 'Dariush',
-      link: 'https://stackoverflow.com/users/4855256/dariush'
-    }
+      link: 'https://stackoverflow.com/users/4855256/dariush',
+    },
   };
 
   test('owner image exibition', () => {

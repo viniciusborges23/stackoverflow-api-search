@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Creatable } from 'react-select';
 import 'react-select/dist/react-select.css';
 
@@ -17,13 +18,15 @@ class Search extends Component {
         { value: 'jquery', label: 'jquery' },
         { value: 'html', label: 'html' },
         { value: 'ios', label: 'ios' },
-        { value: 'android', label: 'android' }
-      ]
+        { value: 'android', label: 'android' },
+      ],
     };
+
+    this.handleSortChange = this.handleSortChange.bind(this);
   }
 
   handleSortChange(e) {
-    const value = e.target.value;
+    const { value } = e.target;
     const scoreElement = document.getElementById('score');
     if (value === 'votes') {
       scoreElement.removeAttribute('disabled');
@@ -46,7 +49,7 @@ class Search extends Component {
               </label>
               <Creatable
                 id="tags"
-                multi={true}
+                multi
                 clearable={false}
                 options={this.state.tagOptions}
                 onChange={value => this.props.onTagsChange(value)}
@@ -73,7 +76,7 @@ class Search extends Component {
                 <select
                   className="form-control"
                   id="sort"
-                  onChange={this.handleSortChange.bind(this)}
+                  onChange={this.handleSortChange}
                   value={this.props.filters.sort}
                 >
                   <option value="activity">Last Updated</option>
@@ -104,5 +107,25 @@ class Search extends Component {
     );
   }
 }
+
+Search.propTypes = {
+  filters: PropTypes.shape({
+    tags: PropTypes.arrayOf(
+      PropTypes.shape({
+        value: PropTypes.string,
+        label: PropTypes.string,
+        clearableValue: PropTypes.bool,
+      })
+    ),
+    score: PropTypes.number,
+    limit: PropTypes.number,
+    sort: PropTypes.string,
+  }).isRequired,
+  onSubmit: PropTypes.func.isRequired,
+  onSortChange: PropTypes.func.isRequired,
+  onTagsChange: PropTypes.func.isRequired,
+  onLimitChange: PropTypes.func.isRequired,
+  onScoreChange: PropTypes.func.isRequired,
+};
 
 export default Search;

@@ -7,7 +7,7 @@ import Header from '../components/Header';
 Enzyme.configure({ adapter: new Adapter() });
 
 describe('<Header />', () => {
-  it('should render without throwing an error', function() {
+  test('should render without throwing an error', () => {
     expect(
       shallow(<Header />).contains(
         <header>
@@ -19,11 +19,11 @@ describe('<Header />', () => {
     ).toBe(true);
   });
 
-  it('should mount in a full DOM', function() {
+  test('should mount in a full DOM', () => {
     expect(mount(<Header />).find('header').length).toBe(1);
   });
 
-  it('should render to static HTML', function() {
+  test('should render to static HTML', () => {
     expect(render(<Header />).text()).toEqual('StackOverflow');
   });
 });

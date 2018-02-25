@@ -3,20 +3,17 @@ import Enzyme, { shallow } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 
 import QuestionsList from '../components/QuestionsList';
-import QuestionsListItem from '../components/QuestionsListItem';
-import Loading from '../components/Loading';
-import NoResults from '../components/NoResults';
 
 Enzyme.configure({ adapter: new Adapter() });
 
 describe('<QuestionsList />', () => {
   test('should show <Loading />', () => {
-    const wrapper = shallow(<QuestionsList didSearch={true} loading={true} questions={[]} />);
+    const wrapper = shallow(<QuestionsList error={false} didSearch loading questions={[]} />);
     expect(wrapper.find('Loading').length).toBe(1);
   });
 
-  test('should show no <NoResults />', () => {
-    const wrapper = shallow(<QuestionsList didSearch={true} loading={false} questions={[]} />);
+  test('should show <NoResults />', () => {
+    const wrapper = shallow(<QuestionsList error={false} didSearch loading={false} questions={[]} />);
     expect(wrapper.find('NoResults').length).toBe(1);
   });
 
@@ -35,11 +32,11 @@ describe('<QuestionsList />', () => {
         owner: {
           profile_image: 'https://www.gravatar.com/avatar/a882f6a0a82864cbd7690e12aa766f83?s=128&d=identicon&r=PG&f=1',
           display_name: 'Dariush',
-          link: 'https://stackoverflow.com/users/4855256/dariush'
-        }
-      }
+          link: 'https://stackoverflow.com/users/4855256/dariush',
+        },
+      },
     ];
-    const wrapper = shallow(<QuestionsList didSearch={true} loading={false} questions={questions} />);
+    const wrapper = shallow(<QuestionsList error={false} didSearch loading={false} questions={questions} />);
     expect(wrapper.find('QuestionsListItem').length).toBe(1);
   });
 });

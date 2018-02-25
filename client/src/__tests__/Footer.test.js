@@ -7,7 +7,7 @@ import Footer from '../components/Footer';
 Enzyme.configure({ adapter: new Adapter() });
 
 describe('<Footer />', () => {
-  it('should render without throwing an error', function() {
+  test('should render without throwing an error', () => {
     expect(
       shallow(<Footer />).contains(
         <footer>
@@ -19,11 +19,11 @@ describe('<Footer />', () => {
     ).toBe(true);
   });
 
-  it('should mount in a full DOM', function() {
+  test('should mount in a full DOM', () => {
     expect(mount(<Footer />).find('footer').length).toBe(1);
   });
 
-  it('should render to static HTML', function() {
+  test('should render to static HTML', () => {
     expect(render(<Footer />).text()).toEqual('by Vinicius Borges');
   });
 });
