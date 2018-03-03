@@ -1,26 +1,13 @@
 import React, { Component } from 'react';
+import { graphql } from 'react-apollo';
 import PropTypes from 'prop-types';
 import { Creatable } from 'react-select';
 import 'react-select/dist/react-select.css';
+import fetchTagOptions from '../queries/fetchTagOptions';
 
 class Search extends Component {
   constructor(props) {
     super(props);
-
-    this.state = {
-      tagOptions: [
-        { value: 'php', label: 'php' },
-        { value: 'reactjs', label: 'reactjs' },
-        { value: 'java', label: 'java' },
-        { value: 'c++', label: 'c++' },
-        { value: 'c#', label: 'c#' },
-        { value: 'python', label: 'python' },
-        { value: 'jquery', label: 'jquery' },
-        { value: 'html', label: 'html' },
-        { value: 'ios', label: 'ios' },
-        { value: 'android', label: 'android' },
-      ],
-    };
 
     this.handleSortChange = this.handleSortChange.bind(this);
   }
@@ -51,7 +38,7 @@ class Search extends Component {
                 id="tags"
                 multi
                 clearable={false}
-                options={this.state.tagOptions}
+                options={this.props.data.fetchTagOptions}
                 onChange={value => this.props.onTagsChange(value)}
                 value={this.props.filters.tags}
               />
@@ -126,6 +113,11 @@ Search.propTypes = {
   onTagsChange: PropTypes.func.isRequired,
   onLimitChange: PropTypes.func.isRequired,
   onScoreChange: PropTypes.func.isRequired,
+  data: PropTypes.shape({
+    loading: PropTypes.bool,
+    error: PropTypes.object,
+    fetchTagOptions: PropTypes.arrayOf(PropTypes.object),
+  }).isRequired,
 };
 
-export default Search;
+export default graphql(fetchTagOptions)(Search);

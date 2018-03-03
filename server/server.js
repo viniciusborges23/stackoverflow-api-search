@@ -16,15 +16,15 @@ app.use(
   '/graphql',
   bodyParser.json(),
   graphqlExpress({
-    schema
-  })
+    schema,
+  }),
 );
 
 app.get(
   '/graphiql',
   graphiqlExpress({
-    endpointURL: '/graphql'
-  })
+    endpointURL: '/graphql',
+  }),
 );
 
-app.listen(PORT, () => console.log(`Server is now listing on port ${PORT}...`));
+app.listen(PORT);

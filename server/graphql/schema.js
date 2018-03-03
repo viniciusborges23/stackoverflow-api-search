@@ -21,14 +21,20 @@ const typeDefs = `
     link: String
   }
 
+  type TagOption {
+    label: String
+    value: String
+  }
+
   type Query {
     questions(tags: String, score: Int, limit: Int, sort: String): [Question]
+    fetchTagOptions: [TagOption]
   }
 `;
 
 const schema = makeExecutableSchema({
   typeDefs,
-  resolvers
+  resolvers,
 });
 
 export default schema;
