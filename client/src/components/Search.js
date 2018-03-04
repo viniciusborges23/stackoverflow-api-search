@@ -6,24 +6,6 @@ import 'react-select/dist/react-select.css';
 import fetchTagOptions from '../queries/fetchTagOptions';
 
 class Search extends Component {
-  constructor(props) {
-    super(props);
-
-    this.handleSortChange = this.handleSortChange.bind(this);
-  }
-
-  handleSortChange(e) {
-    const { value } = e.target;
-    const scoreElement = document.getElementById('score');
-    if (value === 'votes') {
-      scoreElement.removeAttribute('disabled');
-    } else {
-      scoreElement.setAttribute('disabled', true);
-      this.props.filters.score = 0;
-    }
-    this.props.onSortChange(e.target.value);
-  }
-
   render() {
     return (
       <div className="search">
@@ -63,7 +45,7 @@ class Search extends Component {
                 <select
                   className="form-control"
                   id="sort"
-                  onChange={this.handleSortChange}
+                  onChange={e => this.props.onSortChange(e.target.value)}
                   value={this.props.filters.sort}
                 >
                   <option value="activity">Last Updated</option>
@@ -74,12 +56,12 @@ class Search extends Component {
               <div className="form-group col-md-4">
                 <label htmlFor="score">Minimum of Votes</label>
                 <input
-                  disabled
+                  disabled={this.props.filters.score.disabled}
                   type="number"
                   className="form-control"
                   id="score"
                   onChange={e => this.props.onScoreChange(e.target.value)}
-                  value={this.props.filters.score}
+                  value={this.props.filters.score.value}
                 />
               </div>
             </div>
@@ -104,7 +86,10 @@ Search.propTypes = {
         clearableValue: PropTypes.bool,
       })
     ),
-    score: PropTypes.number,
+    score: PropTypes.shape({
+      value: PropTypes.number,
+      disabled: PropTypes.bool,
+    }),
     limit: PropTypes.number,
     sort: PropTypes.string,
   }).isRequired,

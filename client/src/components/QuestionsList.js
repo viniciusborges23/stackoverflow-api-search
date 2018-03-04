@@ -8,10 +8,7 @@ import QuestionsListItem from './QuestionsListItem';
 
 class QuestionsList extends Component {
   renderList() {
-    return (
-      this.props.questions &&
-      this.props.questions.map(question => <QuestionsListItem key={question.question_id} question={question} />)
-    );
+    return this.props.questions.map(question => <QuestionsListItem key={question.question_id} question={question} />);
   }
 
   render() {

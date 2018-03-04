@@ -18,7 +18,7 @@ class SearchPage extends Component {
       error: false,
       filters: {
         tags: [{ value: 'javascript', label: 'javascript', clearableValue: false }],
-        score: 0,
+        score: { value: 0, disabled: true },
         limit: 15,
         sort: 'activity',
       },
@@ -35,12 +35,13 @@ class SearchPage extends Component {
     event.preventDefault();
 
     const tags = this.state.filters.tags.map(tag => tag.value).join(';');
+    const score = this.state.filters.score.value;
 
     this.setState({ loading: true });
     try {
       const result = await this.props.client.query({
         query: fetchQuestions,
-        variables: { ...this.state.filters, tags: encodeURIComponent(tags) },
+        variables: { ...this.state.filters, score, tags: encodeURIComponent(tags) },
       });
 
       this.setState({
@@ -68,16 +69,19 @@ class SearchPage extends Component {
   }
 
   handleLimitChange(limit) {
-    this.setState({ filters: { ...this.state.filters, limit } });
+    const validLimit = Number(limit) || 0;
+    this.setState({ filters: { ...this.state.filters, limit: validLimit } });
   }
 
   handleScoreChange(score) {
     const validScore = Number(score) || 0;
-    this.setState({ filters: { ...this.state.filters, score: validScore } });
+    this.setState({ filters: { ...this.state.filters, score: { ...this.state.filters.score, value: validScore } } });
   }
 
   handleSortChange(sort) {
-    this.setState({ filters: { ...this.state.filters, sort } });
+    this.setState({
+      filters: { ...this.state.filters, sort, score: { value: 0, disabled: sort !== 'votes' } },
+    });
   }
 
   render() {
