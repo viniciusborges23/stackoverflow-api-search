@@ -48,9 +48,9 @@ class Search extends Component {
                   onChange={e => this.props.onSortChange(e.target.value)}
                   value={this.props.filters.sort}
                 >
-                  <option value="activity">Last Updated</option>
-                  <option value="creation">Last Created</option>
-                  <option value="votes">Highest Voted</option>
+                  <option value="ACTIVITY">Last Updated</option>
+                  <option value="CREATION">Last Created</option>
+                  <option value="VOTES">Highest Voted</option>
                 </select>
               </div>
               <div className="form-group col-md-4">

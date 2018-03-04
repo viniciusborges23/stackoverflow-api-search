@@ -1,7 +1,7 @@
 import gql from 'graphql-tag';
 
 export default gql`
-  query fetchQuestions($tags: String, $limit: Int, $score: Int, $sort: String) {
+  query fetchQuestions($tags: String, $limit: Int, $score: Int, $sort: Sort) {
     questions(tags: $tags, limit: $limit, score: $score, sort: $sort) {
       tags
       title

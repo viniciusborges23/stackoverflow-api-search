@@ -20,7 +20,7 @@ class SearchPage extends Component {
         tags: [{ value: 'javascript', label: 'javascript', clearableValue: false }],
         score: { value: 0, disabled: true },
         limit: 15,
-        sort: 'activity',
+        sort: 'ACTIVITY',
       },
     };
 
@@ -80,7 +80,7 @@ class SearchPage extends Component {
 
   handleSortChange(sort) {
     this.setState({
-      filters: { ...this.state.filters, sort, score: { value: 0, disabled: sort !== 'votes' } },
+      filters: { ...this.state.filters, sort, score: { value: 0, disabled: sort !== 'VOTES' } },
     });
   }
 

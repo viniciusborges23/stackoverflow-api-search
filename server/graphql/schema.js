@@ -26,8 +26,14 @@ const typeDefs = `
     value: String
   }
 
+  enum Sort {
+    ACTIVITY
+    CREATION
+    VOTES
+  }
+
   type Query {
-    questions(tags: String, score: Int, limit: Int, sort: String): [Question]
+    questions(tags: String, score: Int, limit: Int, sort: Sort): [Question]
     fetchTagOptions: [TagOption]
   }
 `;
